@@ -1,0 +1,16 @@
+parameters:
+#    shopline_psp_report.example.class: Shopline\PSP\ReportBundle\Example
+
+services:
+    shopline_psp_report.main_menu:
+        class: Shopline\PSP\ReportBundle\Menu\MainMenuBuilder
+        arguments: [@doctrine.orm.entity_manager]
+        tags:
+            - { name: oro_menu.builder, alias: application_menu }
+    shopline_psp_report.event_listener.payment_settlements_grid_parameter_listener:
+        class: %oro_datagrid.event_listener.base_orm_relation.class%
+        arguments:
+            - providerId
+            - false
+        tags:
+            - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.after.payment-settlements-grid, method: onBuildAfter }

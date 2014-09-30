@@ -1,0 +1,91 @@
+datagrid:
+    payment-settlements-grid:
+        extended_entity_name: Shopline\PSP\ReportBundle\Entity\Settlement\AbstractSettlement
+        source:
+            type: orm
+            query:
+                select:
+                    - s.id
+                    - s.settlementDate
+                    - s.terminalId
+                    - s.channelId
+                    - s.settlementId
+                    - s.fee
+                    - s.taxTotal
+                    - s.netTotal
+                    - s.grossTotal
+                    - s.currency
+                from:
+                    - { table: Shopline\PSP\ReportBundle\Entity\Settlement\AbstractSettlement, alias: s }
+                join:
+                    left:
+                        - { join: s.provider, alias: provider }
+                where:
+                    and:
+                        - provider.id = :providerId
+        columns:
+            settlementDate:
+                frontend_type:    datetime
+            terminalId:
+                label:            Terminal ID
+            channelId:            ~
+            settlementId:         ~
+            fee:
+                type:             localized_number
+                method:           formatCurrency
+                context_resolver: Shopline\PSP\ReportBundle\Grid\FormatterContextResolver::getResolverCurrencyClosure
+            taxTotal:
+                type:             localized_number
+                method:           formatCurrency
+                context_resolver: Shopline\PSP\ReportBundle\Grid\FormatterContextResolver::getResolverCurrencyClosure
+            netTotal:
+                type:             localized_number
+                label:            Net total
+                method:           formatCurrency
+                context_resolver: Shopline\PSP\ReportBundle\Grid\FormatterContextResolver::getResolverCurrencyClosure
+            grossTotal:
+                type:             localized_number
+                label:            Gross total
+                method:           formatCurrency
+                context_resolver: Shopline\PSP\ReportBundle\Grid\FormatterContextResolver::getResolverCurrencyClosure
+        properties:
+            id: ~
+            view_link:
+                type: url
+                route: psp.report.view
+                params: [ id ]
+        sorters:
+            columns:
+                settlementDate: { data_name: s.settlementDate }
+                terminalId:     { data_name: s.terminalId }
+                channelId:      { data_name: s.channelId }
+                settlementId:   { data_name: s.settlementId }
+                fee:            { data_name: s.fee }
+                taxTotal:       { data_name: s.taxTotal }
+                netTotal:       { data_name: s.netTotal }
+                grossTotal:     { data_name: s.grossTotal }
+            default:
+                settlementDate: DESC
+        filters:
+            columns:
+                terminalId:
+                    type:             string
+                    data_name:        s.terminalId
+                netTotal:
+                    type:             number
+                    data_name:        s.netTotal
+                    options:
+                        data_type:    Oro\Bundle\FilterBundle\Form\Type\Filter\NumberFilterType::DATA_DECIMAL
+                grossTotal:
+                    type:             number
+                    data_name:        s.grossTotal
+                    options:
+                        data_type:    Oro\Bundle\FilterBundle\Form\Type\Filter\NumberFilterType::DATA_DECIMAL
+        actions:
+            view:
+                type:      navigate
+                link:      view_link
+                icon:      eye-open
+                rowAction: true
+        options:
+            export: true

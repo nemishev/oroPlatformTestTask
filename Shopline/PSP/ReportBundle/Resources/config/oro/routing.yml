@@ -1,0 +1,4 @@
+shopline_psp_report:
+    resource: "@ShoplinePSPReportBundle/Controller"
+    type:     annotation
+    prefix:   /psp/report
