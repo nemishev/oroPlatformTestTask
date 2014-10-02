@@ -52,7 +52,7 @@ datagrid:
             id: ~
             view_link:
                 type: url
-                route: psp.report.view
+                route: psp.report.settlements.view
                 params: [ id ]
         sorters:
             columns:
@@ -89,3 +89,71 @@ datagrid:
                 rowAction: true
         options:
             export: true
+
+    payment-settlement-transactions-grid:
+        extended_entity_name: Shopline\PSP\ReportBundle\Entity\Transaction\AbstractTransaction
+        source:
+            type: orm
+            query:
+                select:
+                    - t
+                from:
+                    - { table: Shopline\PSP\ReportBundle\Entity\Transaction\AbstractTransaction , alias: t }
+                join:
+                    left:
+                        - { join: t.settlement, alias: s }
+                where:
+                    and:
+                        - t.settlement = :settlementId
+        columns:
+            grossTotal:
+                type:             localized_number
+                method:           formatCurrency
+                context_resolver: Shopline\PSP\ReportBundle\Grid\FormatterContextResolver::getResolverCurrencyClosure
+            invoiceFee:
+                type:             localized_number
+                method:           formatCurrency
+                context_resolver: Shopline\PSP\ReportBundle\Grid\FormatterContextResolver::getResolverCurrencyClosure
+            factoringFee:
+                type:             localized_number
+                method:           formatCurrency
+                context_resolver: Shopline\PSP\Rep
+            invoiceNumber:        ~
+            orderId:              ~
+            transactionDate:
+                frontend_type:    datetime
+            fee:
+                type:             localized_number
+                method:           formatCurrency
+                context_resolver: Shopline\PSP
+            netTotal:
+                type:             localized_number
+                method:           formatCurrency
+                context_resolver: Shopline\PSP\ReportBundle\Grid\FormatterContextResolver::getResolverCurrencyClosure
+            tax:
+                type:             localized_number
+                method:           formatCurrency
+                context_resolver: Shopline\PSP\ReportBundle\Grid\FormatterContextResolver::getResolverCurrencyClosure
+            taxRate:
+                type:             localized_number
+                method:           formatCurrency
+                context_resolver: Shopline\PSP\ReportBundle\Grid\FormatterContextResolver::getResolverCurrencyClosure
+            refund:               ~
+        sorters:
+            columns:
+                grossTotal:      { data_name: t.grossTotal }
+                invoiceFee:      { data_name: t.invoiceFee }
+                factoringFee:    { data_name: t.factoringFee }
+                invoiceNumber:   { data_name: t.invoiceNumber }
+                orderId:         { data_name: t.orderId }
+                transactionDate: { data_name: t.transactionDate }
+                fee:             { data_name: t.fee }
+                netTotal:        { data_name: t.netTotal }
+                tax:             { data_name: t.tax }
+                taxRate:         { data_name: t.taxRate }
+                refund:          { data_name: t.refund }
+        options:
+            toolbarOptions:
+                hide: true
+                pagination:
+                    hide: true

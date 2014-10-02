@@ -1,0 +1,3 @@
+oro_titles:
+    psp.report.settlements.index: '%%provider%% settlements'
+    psp.report.settlements.view:  '%%provider%% settlement #%%settlement_id%%'

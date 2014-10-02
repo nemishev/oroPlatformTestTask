@@ -14,3 +14,11 @@ services:
             - false
         tags:
             - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.after.payment-settlements-grid, method: onBuildAfter }
+
+    shopline_psp_report.event_listener.payment_settlement_transactions_grid_parameter_listener:
+        class: %oro_datagrid.event_listener.base_orm_relation.class%
+        arguments:
+            - settlementId
+            - false
+        tags:
+            - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.after.payment-settlement-transactions-grid, method: onBuildAfter }

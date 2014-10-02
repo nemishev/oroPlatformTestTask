@@ -57,6 +57,7 @@ class LoadSettlementData extends AbstractFixture implements OrderedFixtureInterf
                 foreach ($settlements as $i => $settlementData) {
                     $settlement = new KlarnaSettlement();
                     $settlement->setCreatedAt($dateTimeNow);
+                    $settlement->setUpdatedAt($dateTimeNow);
                     $settlement->setSettlementDate($dateTimeNow);
                     $settlement->setProvider($provider);
                     $settlement->setProviderInfo(array('name' => $provider->getName()));

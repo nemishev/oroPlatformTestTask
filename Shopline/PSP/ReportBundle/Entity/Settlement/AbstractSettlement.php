@@ -4,6 +4,7 @@ namespace Shopline\PSP\ReportBundle\Entity\Settlement;
 
 use Doctrine\ORM\Mapping AS ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Shopline\PSP\ReportBundle\Entity\Provider\AbstractSettlementProvider;
 use Shopline\PSP\ReportBundle\Entity\Transaction\AbstractTransaction;
 
@@ -96,8 +97,29 @@ abstract class AbstractSettlement
      * @var \DateTime
      *
      * @ORM\Column(type="datetime")
+     * @ConfigField(
+     *      defaultValues={
+     *          "entity"={
+     *              "label"="oro.ui.created_at"
+     *          }
+     *      }
+     * )
      */
     protected $createdAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime")
+     * @ConfigField(
+     *      defaultValues={
+     *          "entity"={
+     *              "label"="oro.ui.updated_at"
+     *          }
+     *      }
+     * )
+     */
+    protected $updatedAt;
 
     /**
      * @ORM\Column(type="blob")
@@ -268,6 +290,22 @@ abstract class AbstractSettlement
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTime $updatedAt
+     */
+    public function setUpdatedAt(\DateTime $updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
     }
 
     /**

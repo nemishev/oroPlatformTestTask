@@ -46,7 +46,7 @@ class MainMenuBuilder implements BuilderInterface
             $settlementsTab->addChild(
                 sprintf('settlement_provider_%s', $settlementProvider->getName()),
                 array(
-                    'route'           => 'psp.report.index',
+                    'route'           => 'psp.report.settlements.index',
                     'routeParameters' => array('id' => $settlementProvider->getId()),
                     'label'           => $settlementProvider->getName(),
                     'extras'          => array(

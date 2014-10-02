@@ -1,0 +1,68 @@
+{% extends 'OroUIBundle:actions:view.html.twig' %}
+{% import 'OroUIBundle::macros.html.twig' as macros %}
+
+{% oro_title_set({params : {"%provider%":  entity.provider.name, "%settlement_id%": entity.settlementId} }) %}
+
+{% block pageHeader %}
+    {% set breadcrumbs = {
+        'entity': entity,
+        'indexPath': path('psp.report.settlements.index', {'id': entity.provider.id}),
+        'indexLabel': 'Settlements',
+        'entityTitle': 'Settlement #' ~ entity.settlementId
+    } %}
+    {{ parent() }}
+{% endblock pageHeader %}
+
+{% block content_data %}
+    {% set generalSubblocks = [] %}
+
+    {% set settlementInformationWidget %}
+        {{ oro_widget_render({
+            'widgetType': 'block',
+            'url': path('psp.report.settlements.info', {id: entity.id}),
+            'title': 'Settlement info'
+        }) }}
+    {% endset %}
+    {% set generalSubblocks = generalSubblocks|merge([{'data' : [settlementInformationWidget] }]) %}
+
+    {% if entity.provider %}
+        {% set providerInformationWidget %}
+            {{ oro_widget_render({
+                'widgetType': 'block',
+                'url': path('psp.report.provider.info', {id: entity.provider.id}),
+                'title': 'Provider info'
+            }) }}
+        {% endset %}
+        {% set generalSubblocks = generalSubblocks|merge([{'data' : [providerInformationWidget] }]) %}
+    {% endif %}
+
+    {% set dataBlocks = [
+        {
+            'title': 'General information',
+            'class': 'active',
+            'subblocks': generalSubblocks
+        }
+    ] %}
+
+    {% if entity.transactions.count %}
+        {% set settlementTransactionsWidget %}
+            {{ oro_widget_render({
+                'widgetType': 'block',
+                'url': path('psp.report.settlements.widget.transactions', {id: entity.id})
+            }) }}
+        {% endset %}
+
+        {% set dataBlocks = dataBlocks|merge([
+            {
+                'title': 'Settlement transactions',
+                'subblocks': [
+                    {'data' : [settlementTransactionsWidget] }
+                ]
+            }
+        ]) %}
+    {% endif %}
+
+    {% set id = 'magentoOrderView' %}
+    {% set data = {'dataBlocks': dataBlocks} %}
+    {{ parent() }}
+{% endblock content_data %}

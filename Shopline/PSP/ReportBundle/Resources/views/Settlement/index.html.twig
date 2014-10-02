@@ -1,0 +1,6 @@
+{% extends 'OroUIBundle:actions:index.html.twig' %}
+
+{% oro_title_set({params : {"%provider%":  provider.name} }) %}
+
+{% set gridName = 'payment-settlements-grid' %}
+{% set params = { providerId: provider.id } %}

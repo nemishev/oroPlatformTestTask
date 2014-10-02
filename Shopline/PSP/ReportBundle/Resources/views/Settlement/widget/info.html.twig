@@ -1,0 +1,18 @@
+{% import 'OroUIBundle::macros.html.twig' as ui %}
+{% import 'OroAddressBundle::macros.html.twig' as address %}
+{% import 'OroEntityConfigBundle::macros.html.twig' as entityConfig %}
+
+<div class="widget-content">
+    <div class="row-fluid form-horizontal">
+        <div class="responsive-block">
+            {{ ui.renderProperty('Settlement id', entity.settlementId) }}
+            {{ ui.renderProperty('Settlement date', entity.settlementDate | oro_format_datetime) }}
+            {{ ui.renderProperty('Terminal ID', entity.terminalId) }}
+            {{ ui.renderProperty('Channel ID', entity.channelId) }}
+            {{ ui.renderProperty('Fee', entity.fee|oro_format_currency({'currency': entity.currency})) }}
+            {{ ui.renderProperty('Tax total', entity.taxTotal|oro_format_currency({'currency': entity.currency})) }}
+            {{ ui.renderProperty('Net total', entity.netTotal|oro_format_currency({'currency': entity.currency})) }}
+            {{ ui.renderProperty('Gross total', entity.grossTotal|oro_format_currency({'currency': entity.currency})) }}
+        </div>
+    </div>
+</div>
